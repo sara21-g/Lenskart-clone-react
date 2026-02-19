@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 
+const FORMSPREE_URL = 'https://formspree.io/f/xgolalpn';
+
 function Newsletter({ onSuccess }) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [status, setStatus] = useState(''); // 'sending' | 'success' | 'error'
 
   // Email validation pattern
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -23,9 +26,27 @@ function Newsletter({ onSuccess }) {
       return;
     }
 
-    // Success
-    onSuccess('Thank you for subscribing! Check your email for exclusive offers.');
-    setEmail('');
+    setStatus('sending');
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        onSuccess('Thank you for subscribing! Check your email for exclusive offers.');
+        setEmail('');
+      } else {
+        setStatus('error');
+        setError('Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setStatus('error');
+      setError('Network error. Please check your connection and try again.');
+    }
   };
 
   return (
@@ -44,7 +65,9 @@ function Newsletter({ onSuccess }) {
             />
             {error && <span className="error-message">{error}</span>}
           </div>
-          <button type="submit">Subscribe</button>
+          <button type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Subscribing...' : 'Subscribe'}
+          </button>
         </form>
       </div>
     </section>
