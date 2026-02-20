@@ -6,16 +6,20 @@ function LoginModal({ onClose, onSuccess }) {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  // Email validation pattern
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
+    // Reset errors
     setEmailError('');
     setPasswordError('');
-    
+
     let isValid = true;
 
+    // Validate email
     if (email.trim() === '') {
       setEmailError('Email is required');
       isValid = false;
@@ -24,6 +28,7 @@ function LoginModal({ onClose, onSuccess }) {
       isValid = false;
     }
 
+    // Validate password
     if (password.trim() === '') {
       setPasswordError('Password is required');
       isValid = false;
@@ -32,9 +37,9 @@ function LoginModal({ onClose, onSuccess }) {
       isValid = false;
     }
 
+    // If valid, proceed
     if (isValid) {
-      // PASS EMAIL TO PARENT
-      onSuccess(email);
+      onSuccess('Login successful! Welcome back.');
       onClose();
     }
   };
