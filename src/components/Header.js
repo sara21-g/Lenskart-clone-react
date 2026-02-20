@@ -46,27 +46,6 @@ function Header({ darkTheme, toggleTheme, cartCount, onLoginClick }) {
             </div>
 
             <div className="header-actions">
-              {isLoggedIn ? (
-                <div className="header-action" style={{ cursor: 'pointer' }}>
-                  <i className="fas fa-user"></i>
-                  <span>{userName}</span>
-                  <button 
-                    onClick={onLogout}
-                    style={{
-                      marginLeft: '10px',
-                      padding: '5px 10px',
-                      fontSize: '11px',
-                      background: '#ff6b6b',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
               <a href="#login" className="header-action" onClick={(e) => { e.preventDefault(); onLoginClick(); }}>
                 <i className="far fa-user"></i>
                 <span>Account</span>
