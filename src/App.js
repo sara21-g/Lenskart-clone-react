@@ -19,21 +19,11 @@ function App() {
   const [successMessage, setSuccessMessage] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
-
   // Load theme preference from localStorage on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem('lenskartTheme');
     if (savedTheme === 'dark') {
       setDarkTheme(true);
-    }
-
-    const savedLoginStatus = localStorage.getItem('lenskartLoggedIn');
-    const savedUserName = localStorage.getItem('lenskartUserName');
-    if (savedLoginStatus === 'true') {
-      setIsLoggedIn(true);
-      setUserName(savedUserName || '');
     }
 
     // Track visit count
@@ -60,22 +50,6 @@ function App() {
   // Handle theme toggle
   const toggleTheme = () => {
     setDarkTheme(!darkTheme);
-  };
-
-  const handleLoginSuccess = (email) => {
-    setIsLoggedIn(true);
-    setUserName(email);
-    localStorage.setItem('lenskartLoggedIn', 'true');
-    localStorage.setItem('lenskartUserName', email);
-    showSuccessMsg('Login successful! Welcome back.');
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserName('');
-    localStorage.removeItem('lenskartLoggedIn');
-    localStorage.removeItem('lenskartUserName');
-    showSuccessMsg('Logged out successfully!');
   };
 
   // Handle add to cart
